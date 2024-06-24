@@ -62,7 +62,7 @@ rm(grants, btype2implan)
 
 ##Repair and weight contracts, grants, and direct payment data##
 #CONTRACTS#
-##First go through and manually fix contract errors file, and then run it through the T1 check again.
+##First go through and manually fix contract errors file, and then run it through the T1 check again
 manual_fixes_c <- read.csv(file.path(output_path, paste0(f_year, contract_errors)))
 manual_fixes_c <- t1_check(manual_fixes_c, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(output_path, paste0(f_year, contract_errors)))
 
