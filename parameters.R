@@ -4,7 +4,7 @@
 
 ##General Global Variables##
 f_year = "2022" #Fiscal year of target data 
-year = "2023" #report output year
+year = "2023" #Report output year
 state = "CALIFORNIA" #Target state for report, used for naming conventions
 
 #General Paths to Folders
