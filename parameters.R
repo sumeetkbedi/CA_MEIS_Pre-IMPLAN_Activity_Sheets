@@ -1,4 +1,4 @@
-#This file stores parameters for the MEIS Methodology Script. 
+#This file stores parameters for the master analysis script. 
 #Comment out parameters that are not needed. 
 #For specific instructions on how to use this file, see README.md
 
