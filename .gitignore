@@ -49,3 +49,6 @@ vignettes/*.pdf
 
 #Output folder
 /output
+
+#Error check data folder
+/Error_Check_Data

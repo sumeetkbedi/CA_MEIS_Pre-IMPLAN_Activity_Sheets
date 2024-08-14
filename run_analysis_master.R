@@ -43,28 +43,28 @@ filter_usaspending(gfile_name, state, grant_columns, paste0(f_year, all_g_data))
 source("src/error_check_contracts.R")
 
 #Run tier 1 check on contracts data to pull out cleaned contracts entries into file
-contracts <- t1_check(contracts, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(output_path, paste0(f_year, contract_errors)))
+contracts <- t1_check(contracts, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(err_check_path, paste0(f_year, contract_errors)))
 rm(contracts, naics2implan, naics2naics07, naics2naics17)
 
 #Run R scripts parts 1 and 2, and do subsequent t1 checks, to fill in missing district values and reduce contract errors file
 source("src/check_contract_district_part1.R")
-error_contracts <- t1_check(error_contracts, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(output_path, paste0(f_year, contract_errors)))
+error_contracts <- t1_check(error_contracts, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(err_check_path, paste0(f_year, contract_errors)))
 
 source("src/check_contract_district_part2.R")
-error_contracts <- t1_check(error_contracts, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(output_path, paste0(f_year, contract_errors)))
+error_contracts <- t1_check(error_contracts, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(err_check_path, paste0(f_year, contract_errors)))
 rm(clean_contracts, error_contracts, error_cont_biz, zip_dist_cw)
 
 
 #GRANTS#
 source("src/error_check_grants.R")
-grants <- t1_check(grants, file.path(temp_path, paste0(f_year, clean_g_data)), file.path(output_path, paste0(f_year, grant_errors)))
+grants <- t1_check(grants, file.path(temp_path, paste0(f_year, clean_g_data)), file.path(err_check_path, paste0(f_year, grant_errors)))
 rm(grants, btype2implan)
 
 ##Repair and weight contracts, grants, and direct payment data##
 #CONTRACTS#
 ##First go through and manually fix contract errors file, and then run it through the T1 check again
 manual_fixes_c <- read.csv(file.path(output_path, paste0(f_year, contract_errors)))
-manual_fixes_c <- t1_check(manual_fixes_c, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(output_path, paste0(f_year, contract_errors)))
+manual_fixes_c <- t1_check(manual_fixes_c, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(err_check_path, paste0(f_year, contract_errors)))
 
 #YOU CAN REPEAT THE 2 LINES OF CODE ABOVE OVER AND OVER AGAIN TO REPAIR AS MANY ERRORS AS YOU LIKE
 
@@ -76,7 +76,7 @@ rm(clean_contracts)
 #GRANTS#
 ##First go through and manually fix grant errors file, and then run it through the T1 check again.
 manual_fixes_g <- read.csv(file.path(output_path, paste0(f_year, grant_errors)))
-manual_fixes_g <- t1_check(manual_fixes_g, file.path(temp_path, paste0(f_year, clean_g_data)), file.path(output_path, paste0(f_year, grant_errors)))
+manual_fixes_g <- t1_check(manual_fixes_g, file.path(temp_path, paste0(f_year, clean_g_data)), file.path(err_check_path, paste0(f_year, grant_errors)))
 
 #YOU CAN REPEAT THE 2 LINES OF CODE ABOVE OVER AND OVER AGAIN TO REPAIR AS MANY ERRORS AS YOU LIKE
 
