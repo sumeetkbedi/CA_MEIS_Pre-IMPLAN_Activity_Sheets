@@ -63,7 +63,7 @@ rm(grants, btype2implan)
 ##Repair and weight contracts, grants, and direct payment data##
 #CONTRACTS#
 ##First go through and manually fix contract errors file, and then run it through the T1 check again
-manual_fixes_c <- read.csv(file.path(output_path, paste0(f_year, contract_errors)))
+manual_fixes_c <- read.csv(file.path(err_check_path, paste0(f_year, contract_errors)))
 manual_fixes_c <- t1_check(manual_fixes_c, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(err_check_path, paste0(f_year, contract_errors)))
 
 #YOU CAN REPEAT THE 2 LINES OF CODE ABOVE OVER AND OVER AGAIN TO REPAIR AS MANY ERRORS AS YOU LIKE
@@ -75,7 +75,7 @@ rm(clean_contracts)
 
 #GRANTS#
 ##First go through and manually fix grant errors file, and then run it through the T1 check again.
-manual_fixes_g <- read.csv(file.path(output_path, paste0(f_year, grant_errors)))
+manual_fixes_g <- read.csv(file.path(err_check_path, paste0(f_year, grant_errors)))
 manual_fixes_g <- t1_check(manual_fixes_g, file.path(temp_path, paste0(f_year, clean_g_data)), file.path(err_check_path, paste0(f_year, grant_errors)))
 
 #YOU CAN REPEAT THE 2 LINES OF CODE ABOVE OVER AND OVER AGAIN TO REPAIR AS MANY ERRORS AS YOU LIKE
@@ -120,5 +120,3 @@ source("src/generate_employment_dataframe.R")
 
 ##Run for loop code to get IMPLAN activity sheets generated for counties and districts##
 source("src/create_implan_sheets.R")
-
-##Don't forget to insert code to empty temp folder except for "/data/temp/placeholderfortemp.txt"##
