@@ -106,3 +106,17 @@ county_emp <- county_emp %>%
 district_emp <- district_emp %>%
   mutate(implan_545 = mili_emp,
          implan_546 = (dhs_emp+va_emp+dod_emp))
+
+#EXTRA: Code for grabbing county and district employment used in mastersheets#
+#county_emp <- county_emp %>%
+#  rename("civil_emp" = implan_546) %>%
+#  mutate(total_emp = mili_emp + civil_emp) %>%
+#  select(-c(implan_545, inverse_545, inverse_546))
+
+#district_emp <- district_emp %>%
+#  rename("civil_emp" = implan_546) %>%
+#  mutate(total_emp = mili_emp + civil_emp) %>%
+#  select(-c(implan_545))
+
+#emp_list <- list("counties" = county_emp, "districts" = district_emp)
+#write.xlsx(emp_list, file.path(temp_path, paste0(f_year, "_direct_employment.xlsx")), row.names = F)
