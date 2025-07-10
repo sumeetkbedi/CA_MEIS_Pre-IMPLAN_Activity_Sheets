@@ -41,14 +41,11 @@ vignettes/*.pdf
 #Temp data folder
 /data/temp/
 
-# fed_prop_2021 CSV file
-/data/raw/fed_prop_2021.csv
-
-# R code script to deal with other states' spending
-/src/compare_states.R
-
 #Output folder
 /output
 
 #Error check data folder
-/Error_Check_Data
+/error_check_data
+
+# Deprecated data folder
+/data/raw/deprecated

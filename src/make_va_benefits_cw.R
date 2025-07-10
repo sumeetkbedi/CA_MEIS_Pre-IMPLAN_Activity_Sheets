@@ -12,4 +12,4 @@ result$percent_cnty_total <- with(result, (dist_vets/cnty_vets))
 
 #drop not needed columns and export file as csv to 'output/folder'
 result <- subset(result, select = c("county_or_part", "congressional_district", "percent_cnty_total")) 
-write_csv(result, file.path(raw_path, paste0(f_year, vet_crosswalk)))
+write_csv(result, file.path(temp_path, paste0(f_year, vet_crosswalk)))
