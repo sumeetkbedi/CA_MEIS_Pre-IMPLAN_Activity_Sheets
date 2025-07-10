@@ -49,3 +49,6 @@ vignettes/*.pdf
 
 # Deprecated data folder
 /data/raw/deprecated
+
+# Deperecated source code folder
+/src/deprecated
