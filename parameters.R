@@ -64,21 +64,21 @@ all_g_data = "_all_grant_spending.csv"
 
 
 ##contract_check variables##
-repair_implan_60 <- c("repair", "rpr", "maint", "renovat", "replac", "inspect", "install", "restor", "reroof", "re-roof", "reshingle", "re-shingle", 
+repair_implan_55 <- c("repair", "rpr", "maint", "renovat", "replac", "inspect", "install", "restor", "reroof", "re-roof", "reshingle", "re-shingle", 
                "service", "upgrade", "retrofit", "remov", "ratif", "relocat", "modif", "modern", "clean", "convert", "change", "alter", "repaint",
                "re-paint", "remediat", "repav", "re-pav", "abate", "adjust", "annual", "test", "rehab", "realign", "remodel", "improv", "broke", "expans",
                "revis", "restrip", "substit", "patch", "dredg", "resurfac", "outdat", "reconfig", "refurb", "rerout", "replen", "troubleshoot",
                "correct", "updat", "treatment", "quarterly", "yearly")
 
-aircraft_implan_60 <- c("aircraft", "carrier", "airplane", "airfield", "taxiway", "runway")
+aircraft_implan_55 <- c("aircraft", "carrier", "airplane", "airfield", "taxiway", "runway")
 
-new_implan_56 <- c("construct", "rebuild")
+new_implan_51 <- c("construct", "rebuild")
 
 
 ##error_check_contracts variables##
 naics_crosswalk07 <- "2007_to_2022_NAICS.xlsx"
 naics_crosswalk17 <- "2017_to_2022_NAICS.xlsx"
-implan_crosswalk <- "2022_NAICS_to_IMPLAN.xlsx"
+implan_crosswalk <- "2022_NAICS_to_IMPLAN528.xlsx"
 
 clean_c_data = "_cleaned_contracts.csv"
 contract_errors <- "_contract_errors.csv"
@@ -90,7 +90,7 @@ zip_dist_crosswalk = "_zip_code_to_district_crosswalk.csv"
 
 
 ##error_check_grants variables##
-btype_crosswalk <- "business_type_to_implan546_crosswalk.csv"
+btype_crosswalk <- "business_type_to_implan528_crosswalk.csv"
 clean_g_data = "_cleaned_grants.csv"
 grant_errors <- "_grant_errors.csv"
 
