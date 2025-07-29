@@ -79,6 +79,7 @@ new_implan_51 <- c("construct", "rebuild")
 naics_crosswalk07 <- "2007_to_2022_NAICS.xlsx"
 naics_crosswalk17 <- "2017_to_2022_NAICS.xlsx"
 implan_crosswalk <- "2022_NAICS_to_IMPLAN528.xlsx"
+implan_r2_crosswalk <- "additional_naics_cw.csv"
 
 clean_c_data = "_cleaned_contracts.csv"
 contract_errors <- "_contract_errors.csv"

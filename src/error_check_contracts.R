@@ -25,6 +25,15 @@ contracts <- merge(contracts, naics2implan, by = ("naics_code"), all.x = T, all.
 #Next, hard code any contract entries with a NAICS code starting with 236118 and 92 to IMPLAN codes 56 and 510
 contracts$implan_code[startsWith(as.character(contracts$naics_code), "92")] <- "510"
 contracts$implan_code[startsWith(as.character(contracts$naics_code), "236118")] <- "56"
+contracts$implan_code[startsWith(as.character(contracts$naics_code), "5417")] <- "446"
+
+#Load in a second NAICS to IMPLAN crosswalk, which links old NAICS with a 1-to-1 match to IMPLAN codes.
+naics2implan_r2 <- read.csv(file.path(raw_path, implan_r2_crosswalk))
+
+#Find these old NAICS codes in the contracts dataframe and input the corresponding IMPLAN code
+for (i in 1:nrow(naics2implan_r2)) {
+  contracts$implan_code[grep(naics2implan_r2$old_naics[i], contracts$naics_code)] <- naics2implan_r2$implan_code[i]
+}
 
 #Define index for construction contracts entries with NAICS 237310 - they need to be specifically fixed before moving forward
 constr_ind_237310 <- which(contracts$naics_code == "237310" & is.na(contracts$implan_code))

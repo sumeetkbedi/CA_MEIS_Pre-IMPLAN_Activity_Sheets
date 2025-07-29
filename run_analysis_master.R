@@ -44,7 +44,7 @@ source("src/error_check_contracts.R")
 
 #Run tier 1 check on contracts data to pull out cleaned contracts entries into file
 contracts <- t1_check(contracts, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(err_check_path, paste0(f_year, contract_errors)))
-rm(contracts, naics2implan, naics2naics07, naics2naics17)
+rm(contracts, naics2implan, naics2implan_r2, naics2naics07, naics2naics17)
 
 #Run R scripts parts 1 and 2, and do subsequent t1 checks, to fill in missing district values and reduce contract errors file
 source("src/check_contract_district_part1.R")
@@ -52,7 +52,7 @@ error_contracts <- t1_check(error_contracts, file.path(temp_path, paste0(f_year,
 
 source("src/check_contract_district_part2.R")
 error_contracts <- t1_check(error_contracts, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(err_check_path, paste0(f_year, contract_errors)))
-rm(clean_contracts, error_contracts, error_cont_biz, zip_dist_cw)
+rm(clean_contracts, error_contracts, error_cont_biz, zip_dist_cw, content, response)
 
 
 #GRANTS#
