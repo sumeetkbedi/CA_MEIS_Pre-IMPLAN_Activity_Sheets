@@ -70,7 +70,7 @@ manual_fixes_c <- t1_check(manual_fixes_c, file.path(temp_path, paste0(f_year, c
 
 #Run script to fix and weigh contracts
 source("src/repair_and_weight_contracts.R")
-rm(clean_contracts)
+rm(clean_contracts, manual_fixes_c)
 
 
 #GRANTS#
@@ -82,7 +82,7 @@ manual_fixes_g <- t1_check(manual_fixes_g, file.path(temp_path, paste0(f_year, c
 
 #Run script to fix and weigh grants
 source("src/repair_and_weight_grants.R")
-rm(clean_grants)
+rm(clean_grants, manual_fixes_g)
 
 
 #VA DIRECT PAYMENTS#

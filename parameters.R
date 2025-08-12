@@ -100,6 +100,8 @@ grant_errors <- "_grant_errors.csv"
 final_cols = c("spending", "awarding_agency_name", "funding_office_name", "recipient_county_name",
          "recipient_congressional_district", "implan_code")
 
+dp_final_cols <- c("spending", "awarding_agency_name", "funding_office_name",
+                   "recipient_county_name", "congressional_district")
 
 ##repair_and_weight_direct_payments variable##
 clean_v_data = "_cleaned_va_benefits.csv"
@@ -114,13 +116,13 @@ doe = "Department of Energy"
 
 
 ##natsec_doe variables##
-doe_offices = c("526 ICBMSW", "ACCTG DISB STA NR 503000", "COMMANDER SUBMARINE FORCE",
-                "DEF ADVANCED RESEARCH PROJECTS AGCY", "DEPT OF COMMERCE NIST", "DOD SUPPLY ACTIVITY",
-                "EM-ENVIRONMENTAL MGMT CON BUS CTR", "F59900 SAF FMBIB'", "IDAHO OPERATIONS OFFICE",
-                "MISSILE DEFENSE AGENCY", "MISSILE DEFENSE AGENCY (MDA)", "NASA MARSHALL SPACE FLIGHT CENTER",
-                "NNSA M&O CONTRACTING", "NNSA NAVAL REACTORS LAB FLD OFFICE", "NNSA NON-M&O CNTRACTING OPS DIV",
-                "NNSA OFFICE OF THE ADMIN FUNDS", "NNSA OTHER FUNDS", "NNSA WEAPONS ACTIVITIES FUNDS",
-                "NNSA-DEFENSE NUCLEAR NONPRO FUNDS", "OFFICE OF NAVAL RESEARCH")
+doe_offices = c("526 ICBMSW", "ACCTG DISB STA NR 387700", "ACCTG DISB STA NR 503000", "AFRL RDF",
+                "COMMANDER SUBMARINE FORCE", "DEF ADVANCED RESEARCH PROJECTS AGCY", "DEPT OF COMMERCE NIST",
+                "DOD SUPPLY ACTIVITY", "EM-ENVIRONMENTAL MGMT CON BUS CTR", "F2DANX AFNWC NX SENTINEL GINV", "F59900 SAF FMBIB'",
+                "IDAHO OPERATIONS OFFICE", "MISSILE DEFENSE AGENCY", "MISSILE DEFENSE AGENCY (MDA)",
+                "NASA MARSHALL SPACE FLIGHT CENTER", "NNSA M&O CONTRACTING", "NNSA NAVAL REACTORS LAB FLD OFFICE",
+                "NNSA NON-M&O CNTRACTING OPS DIV", "NNSA OFFICE OF THE ADMIN FUNDS", "NNSA OTHER FUNDS",
+                "NNSA WEAPONS ACTIVITIES FUNDS", "NNSA-DEFENSE NUCLEAR NONPRO FUNDS", "OFFICE OF NAVAL RESEARCH")
 
 
 ##aggregate_usaspending variables##
