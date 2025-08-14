@@ -6,12 +6,12 @@
 
 state_emp <- read.csv(file.path(raw_path, paste0(state,"_emp.csv")), fileEncoding="UTF-8-BOM")
 
-mili_emp = state_emp[1,1] + (state_emp[1,2] * res_mult)
-dod_emp = sum(state_emp[1,5:8])
-dhs_emp = state_emp[1,3] + ca_dhs_sup
-va_emp = state_emp[1,4]
-civilian_emp = dod_emp + dhs_emp + va_emp
-doe_emp = state_emp[1,9] * doe_ns_adjustment
+state_mili_emp = state_emp[1,1] + (state_emp[1,2] * res_mult)
+state_dod_emp = sum(state_emp[1,5:8])
+state_dhs_emp = state_emp[1,3] + ca_dhs_sup
+state_va_emp = state_emp[1,4]
+state_civilian_emp = dod_emp + dhs_emp + va_emp
+state_doe_emp = state_emp[1,9] * doe_ns_adjustment
 
 ##Begin apportioning military and civilian employment by county and district, sectioning off based on employment type##
 ##Start out with military employment - use districts_armedforces and counties_armedforces dataframes from Census API call
@@ -24,7 +24,7 @@ counties_armedforces$county <- toupper(counties_armedforces$county)
 
 mili_county <- counties_armedforces %>%
   mutate(af_perc = counties_armedforces$armed_forces / sum(counties_armedforces$armed_forces),
-         mili_emp = mili_emp * af_perc) %>%
+         mili_emp = state_mili_emp * af_perc) %>%
   select(county, mili_emp)
 
 #DISTRICT
@@ -35,7 +35,7 @@ colnames(districts_armedforces) <- c("district", "armed_forces")
 
 mili_district <- districts_armedforces %>%
   mutate(af_perc = districts_armedforces$armed_forces / sum(districts_armedforces$armed_forces),
-         mili_emp = mili_emp * af_perc) %>%
+         mili_emp = state_mili_emp * af_perc) %>%
   select(district, mili_emp)
 
 
@@ -45,17 +45,17 @@ dod_shares_district <- read_excel(file.path(raw_path, dod_shares), sheet = 2)
 
 #Start out by calculating DOD employment by county - multiply the county share percentage by the statewide DOD employees to get each county's DOD employees
 dod_county <- dod_shares_county %>%
-  mutate("dod_emp" = dod_shares_county$Share * dod_emp) %>%
-  select("geography", "dod_emp")
+  mutate(dod_emp = dod_shares_county$Share * state_dod_emp) %>%
+  select(geography, dod_emp)
 
 #Use the dod_county values to calculate the DOD employment by district. Multiply the DOD county_employees by each district's share of a county, and aggregate by district to get our total amount of DOD civilian employees per district
 dod_district <- merge(dod_county, dod_shares_district)
 
 dod_district <- dod_district %>%
-  mutate("dod_emp" = dod_district$dod_emp * dod_district$`%`) %>%
+  mutate(dod_emp = dod_district$dod_emp * dod_district$`%`) %>%
   select(District, dod_emp)
 dod_district <- aggregate(dod_district, by = list(dod_district$District), FUN = sum) %>%
-  select("Group.1", "dod_emp") %>%
+  select(Group.1, dod_emp) %>%
   rename(district = "Group.1")
 
 dod_county <- dod_county %>%
@@ -98,14 +98,14 @@ district_emp[is.na(district_emp)] <- 0
 
 ##Final step: add columns needed in the for loop code to generate activity sheets##
 county_emp <- county_emp %>%
-  mutate(implan_545 = mili_emp,
-         implan_546 = (dhs_emp+va_emp+dod_emp),
-         inverse_545 = (sum(mili_emp) - mili_emp),
-         inverse_546 = (sum(implan_546) - implan_546))
+  mutate(implan_527 = mili_emp,
+         implan_528 = (dhs_emp+va_emp+dod_emp),
+         inverse_527 = (sum(mili_emp) - mili_emp),
+         inverse_528 = (sum(implan_528) - implan_528))
 
 district_emp <- district_emp %>%
-  mutate(implan_545 = mili_emp,
-         implan_546 = (dhs_emp+va_emp+dod_emp))
+  mutate(implan_527 = mili_emp,
+         implan_528 = (dhs_emp+va_emp+dod_emp))
 
 #EXTRA: Code for grabbing county and district employment used in mastersheets#
 #county_emp <- county_emp %>%
