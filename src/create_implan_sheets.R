@@ -29,6 +29,8 @@ usa_spending_513_stateagg <- sum(usaspending_513$spending)
 va_benefits_countiesagg <- merge(va_benefits_countiesagg, data.frame(county = countynames), by.x = "Group.1", by.y = "county", all.y = TRUE)
 va_benefits_countiesagg$x[is.na(va_benefits_countiesagg$x)] <- 0
 
+smartpay_c <- read_excel(file.path(raw_path, "SmartPay.xlsx"), sheet = 1)
+
 usaspending_513_countiesagg <- aggregate(usaspending_513$spending, by=list(usaspending_513$recipient_county_name), FUN = sum)
 
 for (county in countynames){
@@ -60,6 +62,7 @@ for (county in countynames){
   institution_spend9[1,1] <- "SmartPay"
   institution_spend9[1,2] <- "11002"
   institution_spend9[1,3] <- "2023"
+  institution_spend9[1,4] <- smartpay_c$total[which(smartpay_c$county == county)]
   if(county %in% usaspending_513_countiesagg$Group.1) {
     institution_spend9[2,1] <- "implan_code_513"
     institution_spend9[2,2] <- "12001"
@@ -110,6 +113,7 @@ for (county in countynames){
   institution_spend9[1,1] <- "SmartPay"
   institution_spend9[1,2] <- "11002"
   institution_spend9[1,3] <- "2023"
+  institution_spend9[1,4] <- smartpay_c$inverse[which(smartpay_c$county == county)]
   institution_spend9[2,1] <- "implan_code_513"
   institution_spend9[2,2] <- "12001"
   institution_spend9[2,3] <- "2023"
@@ -131,6 +135,8 @@ for (county in countynames){
 # Account for districts without spending data # 
 va_benefits_districtsagg <- merge(va_benefits_districtsagg, data.frame(id = congressid), by.x = "Group.1", by.y = "id", all.y = TRUE)
 va_benefits_districtsagg$x[is.na(va_benefits_districtsagg$x)] <- 0 
+
+smartpay_d <- read_excel(file.path(raw_path, "SmartPay.xlsx"), sheet = 2)
 
 usaspending_513_districtsagg <- aggregate(usaspending_513$spending, by=list(usaspending_513$recipient_congressional_district), FUN = sum)
 
@@ -164,6 +170,7 @@ for (district in congressid){
   institution_spend9[1,1] <- "SmartPay"
   institution_spend9[1,2] <- "11002"
   institution_spend9[1,3] <- "2023"
+  institution_spend9[1,4] <- smartpay_d$total[which(smartpay_d$district == district)]
   if(district %in% usaspending_513_districtsagg$Group.1) {
     institution_spend9[2,1] <- "implan_code_513"
     institution_spend9[2,2] <- "12001"
