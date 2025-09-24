@@ -10,7 +10,7 @@ state_mili_emp = state_emp[1,1] + (state_emp[1,2] * res_mult)
 state_dod_emp = sum(state_emp[1,5:8])
 state_dhs_emp = state_emp[1,3] + ca_dhs_sup
 state_va_emp = state_emp[1,4]
-state_civilian_emp = dod_emp + dhs_emp + va_emp
+state_civilian_emp = state_dod_emp + state_dhs_emp + state_va_emp
 state_doe_emp = state_emp[1,9] * doe_ns_adjustment
 
 ##Begin apportioning military and civilian employment by county and district, sectioning off based on employment type##
