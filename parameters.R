@@ -3,8 +3,8 @@
 #For specific instructions on how to use this file, see README.md
 
 ##General Global Variables##
-f_year = "2024" #Fiscal year of target data 
-year = "2025" #Report output year
+f_year = "2025" #Fiscal year of target data 
+year = "2026" #Report output year
 state = "CALIFORNIA" #Target state for report, used for naming conventions
 
 #General Paths to Folders
@@ -24,8 +24,8 @@ agency_name = c("Department of Homeland Security", "Department of Defense", "Dep
 
 date_type = "action_date"
 
-date_range_start = "2023-10-01"
-date_range_end = "2024-09-30"
+date_range_start = "2024-10-01"
+date_range_end = "2025-09-30"
 
 ##The following filters are OPTIONAL - comment out the line if you do not require a filter
 #select award types to apply to filter
@@ -45,7 +45,7 @@ recipient_locations_country = c("USA")
 c_key = "8df2ad0b1d54d9a4a19c1d97bed2e94e44995571" #DELETE BEFORE POSTING TO GITHUB!!!
 state_fips = "06"
 dist_list = "01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52" 
-c_year = 2023
+c_year = 2024
 
 
 ##make_va_benefits_cw variables##
@@ -132,7 +132,7 @@ agg_state_doe_data = "_aggregated_doespending_statewide.csv"
 
 ##generate_employment_dataframe Variables##
 res_mult = 0.1825
-national_sus_dhs = 152358
+national_sus_dhs = 168313
 sus_dhs_mult = 0.142144789590548
 ca_dhs_sup = national_sus_dhs * sus_dhs_mult
 
