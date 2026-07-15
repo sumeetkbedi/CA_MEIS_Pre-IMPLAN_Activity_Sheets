@@ -64,5 +64,8 @@ download.file(file_url, destfile = download_path)
 #Unzip file for use
 unzip(download_path, exdir = temp_path)
 
-#Delete un-necessary files after completion
+#Delete unnecessary files after completion
 unlink(download_path)
+
+#Delete unnecessary variables to clean up environment
+rm(body, location_list, request, status_check)
