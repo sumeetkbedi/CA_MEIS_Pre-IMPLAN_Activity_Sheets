@@ -19,7 +19,7 @@ if(exists("awards")){
 }
 
 #Check and add location filters
-if(length(ls(pattern = "recipient_locations"))>0){
+if(length(ls(pattern = "recipient_locations")) > 0){
   location_list <- vector(mode = "list", length = 0)
   
   for(locations in ls(pattern = "recipient_locations")){
@@ -31,7 +31,7 @@ if(length(ls(pattern = "recipient_locations"))>0){
 }
 
 #Format filter body 
-toJSON(body, pretty=T)
+toJSON(body, pretty = T)
 
 #Post query to API
 request <- POST(
