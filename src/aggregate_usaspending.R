@@ -2,5 +2,5 @@
 
 statewide_aggregate <- function(dataframe, out_name) {
   dataframe  <- aggregate(dataframe$spending, by=list(dataframe$implan_code), FUN = "sum") %>%
-    write.csv(file.path(temp_path, out_name), row.names = FALSE)
+    write.csv(file.path(temp_path, out_name), row.names = F)
 }

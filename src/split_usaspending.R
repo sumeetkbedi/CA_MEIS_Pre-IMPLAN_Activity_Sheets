@@ -1,4 +1,4 @@
-#Defines function "split_usaspending" For pulling DOE data out of specified file/dataframe
+#Defines function "split_usaspending" for pulling DOE data out of specified file/dataframe
 
 split_usaspending <- function(file_name, is_doe) {
   usa_spending_data <- read.csv(file.path(temp_path, file_name))
