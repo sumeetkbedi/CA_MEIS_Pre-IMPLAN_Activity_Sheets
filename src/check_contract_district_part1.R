@@ -1,40 +1,23 @@
 ##PART 1: Check if contracts without a district value actually have one in the cleaned data##
-#Read in needed contract files - the 1 missing only districts, the main errors file, and the cleaned file
+#Read in the two contract files - the errors file and the cleaned file
 error_contracts <- read.csv(file.path(err_check_path, paste0(f_year, contract_errors)))
 clean_contracts <- read.csv(file.path(temp_path, paste0(f_year, clean_c_data)))
 
-#Make a list of unique recipient names and zip codes from contract_errors
-error_cont_biz <- unique(data.frame(recipient_name = error_contracts$recipient_name,
-                                    recipient_zip_4_code = error_contracts$recipient_zip_4_code))
+#Make a list of unique recipient names, zip codes, and districts from clean_contracts.
+#Be sure to check if any recipient name-zip code combo is in multiple rows (i.e., has multiple district values) and filter those out.
+clean_cont_biz <- clean_contracts %>%
+  select(recipient_name, recipient_zip_4_code, recipient_congressional_district) %>%
+  rename(district = recipient_congressional_district) %>%
+  distinct() %>%
+  add_count(recipient_name, recipient_zip_4_code, name = "n_matches") %>%
+  filter(n_matches == 1) %>%
+  select(-n_matches)
 
-#Loop over this list to see if it's in the good contracts. If so, it will overwrite the NA district value with the right district
-#Exception: if the business has more than 1 district assigned to it, it will be skipped over
-for(i in 1:nrow(error_cont_biz)) {
-  k <- grepl(error_cont_biz$recipient_name[i], clean_contracts$recipient_name) &
-    grepl(error_cont_biz$recipient_zip_4_code[i], clean_contracts$recipient_zip_4_code)
-  if(sum(k) > 0) {
-    district <- clean_contracts$recipient_congressional_district[k]
-    if(length(unique(district)) > 1) {
-      next
-    }
-    error_contracts$recipient_congressional_district[k] <- district[1]
-  }
-}
-
-
-#error_cont_biz <- unique(data.frame(recipient_name = error_contracts$recipient_name,
-#                                    recipient_zip_4_code = error_contracts$recipient_zip_4_code,
-#                                    cd = error_contracts$recipient_congressional_district))
-
-#clean_cont_biz <- unique(data.frame(recipient_name = clean_contracts$recipient_name,
-#                                    recipient_zip_4_code = clean_contracts$recipient_zip_4_code,
-#                                    cd = clean_contracts$recipient_congressional_district))
-
-#cont_merged <- merge(error_cont_biz, clean_cont_biz, by.x = c("recipient_name", "recipient_zip_4_code"),
-#                     by.y = c("recipient_name", "recipient_zip_4_code"), all = T)
-
-#cont_merged <- cont_merged %>%
-#  filter((cont_merged$cd.x == 90))# %>%
-  #select(!(cd.x))
-
-#write.csv(cont_merged, file.path(err_check_path, "combined_contract_biz.csv"), row.names = F)
+#Left join this list to error_contracts, and check if any recipient name-zip code combo exists in the errors.
+#If so, overwrite the error file's district value (if NA or 90) with the cleaned file's district value.
+error_contracts <- error_contracts %>%
+  left_join(clean_cont_biz, by = c("recipient_name", "recipient_zip_4_code")) %>%
+  mutate(recipient_congressional_district = if_else(
+    is.na(recipient_congressional_district) | recipient_congressional_district == 90,
+    district, recipient_congressional_district)) %>%
+  select(-district)

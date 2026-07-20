@@ -1,4 +1,4 @@
-##PART 2: Run a GET request to ziplook.house.gov to fill in remaining district NAs in errors file##
+##PART 2: Run a GET request to ziplook.house.gov to fill in remaining district errors in error_contracts file##
 #Pull out the unique zip codes from error_contracts
 zip_list <- unique(error_contracts$recipient_zip_4_code)
 
@@ -21,7 +21,7 @@ zip_dist_cw <- as.data.frame(zip_dist_cw)
 colnames(zip_dist_cw) <- c("zip_code", "district")
 
 #Write crosswalk to file. Check to ensure no weird district values come out. If so, correct them, and read back into environment
-#write.csv(zip_dist_cw, file.path(temp_path, paste0(f_year, zip_dist_crosswalk)), row.names = FALSE)
+#write.csv(zip_dist_cw, file.path(temp_path, paste0(f_year, zip_dist_crosswalk)), row.names = F)
 
 zip_dist_cw <- read.csv(file.path(temp_path, paste0(f_year, zip_dist_crosswalk)))
 

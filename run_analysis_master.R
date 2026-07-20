@@ -52,7 +52,7 @@ error_contracts <- t1_check(error_contracts, file.path(temp_path, paste0(f_year,
 
 source("src/check_contract_district_part2.R")
 error_contracts <- t1_check(error_contracts, file.path(temp_path, paste0(f_year, clean_c_data)), file.path(err_check_path, paste0(f_year, contract_errors)))
-rm(clean_contracts, error_contracts, error_cont_biz, zip_dist_cw, content, response)
+rm(clean_contracts, error_contracts, clean_cont_biz, zip_dist_cw, content, response)
 
 
 # GRANTS #

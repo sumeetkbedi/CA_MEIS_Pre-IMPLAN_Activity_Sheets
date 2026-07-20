@@ -132,9 +132,6 @@ agg_state_doe_data = "_aggregated_doespending_statewide.csv"
 
 ##generate_employment_dataframe Variables##
 res_mult = 0.1825
-national_sus_dhs = 168313
-sus_dhs_mult = 0.142144789590548
-ca_dhs_sup = national_sus_dhs * sus_dhs_mult
 
 dod_shares = "dod_county_shares.xlsx"
 dhs_va_foia_data = "_dhs_va_foia_emp.xlsx"

@@ -8,7 +8,7 @@ state_emp <- read.csv(file.path(raw_path, paste0(state,"_emp.csv")), fileEncodin
 
 state_mili_emp = state_emp[1,1] + (state_emp[1,2] * res_mult)
 state_dod_emp = sum(state_emp[1,5:8])
-state_dhs_emp = state_emp[1,3] + ca_dhs_sup
+state_dhs_emp = state_emp[1,3]
 state_va_emp = state_emp[1,4]
 state_civilian_emp = state_dod_emp + state_dhs_emp + state_va_emp
 state_doe_emp = state_emp[1,9] * doe_ns_adjustment
