@@ -92,8 +92,9 @@ zip_dist_crosswalk = "_zip_code_to_district_crosswalk.csv"
 
 ##error_check_grants variables##
 btype_crosswalk <- "business_type_to_implan528_crosswalk.csv"
-clean_g_data = "_cleaned_grants.csv"
+clean_g_data <- "_cleaned_grants.csv"
 grant_errors <- "_grant_errors.csv"
+va_ben_data <- "_va_benefits.csv"
 
 
 ##repair_and_weight contracts and grants variable##
