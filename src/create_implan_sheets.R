@@ -25,13 +25,13 @@ usaspending <- usaspending[!usaspending$implan_code == 513,]
 usa_spending_513_stateagg <- sum(usaspending_513$spending)
 
 ## LOOP FOR "NORMAL" AND INVERSE IMPLAN ACTIVITY SHEETS PER COUNTY ##
-# Account for counties without spending data # 
-va_benefits_countiesagg <- merge(va_benefits_countiesagg, data.frame(county = countynames), by.x = "Group.1", by.y = "county", all.y = TRUE)
-va_benefits_countiesagg$x[is.na(va_benefits_countiesagg$x)] <- 0
+# NOTE: Be sure to account for counties without spending data manually, after the code runs # 
+smartpay_c <- read.xlsx(file.path(raw_path, "SmartPay.xlsx"), sheet = 1)
 
-smartpay_c <- read_excel(file.path(raw_path, "SmartPay.xlsx"), sheet = 1)
-
-usaspending_513_countiesagg <- aggregate(usaspending_513$spending, by=list(usaspending_513$recipient_county_name), FUN = sum)
+usaspending_513_countiesagg <- usaspending_513 %>%
+  rename(county = recipient_county_name) %>%
+  group_by(county) %>%
+  summarize(spending = sum(spending))
 
 for (county in countynames){
     j <- which(usaspending[4] == county)
@@ -57,17 +57,17 @@ for (county in countynames){
                    "Margins", "Event Tag")]
   household_income7[1,1] <- "va_benefits"
   household_income7[1,2] <- 10001
-  household_income7[1,3] <- as.numeric(va_benefits_countiesagg[which(va_benefits_countiesagg$Group.1 == county), 2]) #update household spending by county
+  household_income7[1,3] <- as.numeric(va_benefits_countiesagg[which(va_benefits_countiesagg$county == county), 2]) #update household spending by county
   #input notation for SmartPay into the institutional spending pattern sheet
   institution_spend9[1,1] <- "SmartPay"
   institution_spend9[1,2] <- "11002"
   institution_spend9[1,3] <- "2023"
   institution_spend9[1,4] <- smartpay_c$total[which(smartpay_c$county == county)]
-  if(county %in% usaspending_513_countiesagg$Group.1) {
+  if(county %in% usaspending_513_countiesagg$county) {
     institution_spend9[2,1] <- "implan_code_513"
     institution_spend9[2,2] <- "12001"
     institution_spend9[2,3] <- "2023"
-    institution_spend9[2,4] <- as.numeric(usaspending_513_countiesagg[which(usaspending_513_countiesagg$Group.1 == county), 2])
+    institution_spend9[2,4] <- as.numeric(usaspending_513_countiesagg[which(usaspending_513_countiesagg$county == county), 2])
   } else {
     institution_spend9[2,] <- NA
   }
@@ -81,12 +81,14 @@ for (county in countynames){
   write.xlsx(templist, paste0(output_dep_c, county, ".xlsx"), colNames = T)
   print(paste(county, ":", (length(templist[["Industry"]][["Specification"]])-1)))
   #tempooc is the INVERSE sheet
-  tempooc <- usaspending
-  tempooc <- aggregate(tempooc$spending, by=list(tempooc$implan_code), FUN=sum) #this line aggregates the data by Specification
+  tempooc <- usaspending %>%
+    group_by(implan_code) %>%
+    summarize(spending = sum(spending))
+  #tempooc <- aggregate(tempooc$spending, by=list(tempooc$implan_code), FUN=sum) #this line aggregates the data by Specification
   #temp <- temp[-(1:4),]
   for (i in 1:nrow(temp)){
-      n <- which(tempooc$Group.1 == temp$Specification[i])
-      tempooc$x[n] <- tempooc$x[n] - as.numeric(temp$Output[i]) #subtract each event value from total CA spending
+      n <- which(tempooc$implan_code == temp$Specification[i])
+      tempooc$spending[n] <- tempooc$spending[n] - as.numeric(temp$Output[i]) #subtract each event value from total CA spending
     }
   colnames(tempooc) <- c("Specification", "Output") #change the column names to match activity sheet
   tempooc <- tempooc %>%
@@ -108,7 +110,7 @@ for (county in countynames){
                          "Margins", "Event Tag")]
   household_income7[1,1] <- "va_benefits"
   household_income7[1,2] <- 10001
-  household_income7[1,3] <- as.numeric(va_benefits_stateagg - va_benefits_countiesagg[which(va_benefits_countiesagg$Group.1 == county), 2]) #update household spending by county (in)
+  household_income7[1,3] <- as.numeric(va_benefits_stateagg - va_benefits_countiesagg[which(va_benefits_countiesagg$county == county), 2]) #update household spending by county (in)
   #input notation for SmartPay into the institutional spending pattern sheet
   institution_spend9[1,1] <- "SmartPay"
   institution_spend9[1,2] <- "11002"
@@ -117,8 +119,8 @@ for (county in countynames){
   institution_spend9[2,1] <- "implan_code_513"
   institution_spend9[2,2] <- "12001"
   institution_spend9[2,3] <- "2023"
-  if(county %in% usaspending_513_countiesagg$Group.1) {
-    institution_spend9[2,4] <- as.numeric(usa_spending_513_stateagg - usaspending_513_countiesagg[which(usaspending_513_countiesagg$Group.1 == county), 2])
+  if(county %in% usaspending_513_countiesagg$county) {
+    institution_spend9[2,4] <- as.numeric(usa_spending_513_stateagg - usaspending_513_countiesagg[which(usaspending_513_countiesagg$county == county), 2])
   } else {
     institution_spend9[2,4] <- as.numeric(usa_spending_513_stateagg)
   }
@@ -132,13 +134,13 @@ for (county in countynames){
 }
 
 ## LOOP FOR "NORMAL" IMPLAN ACTIVITY SHEETS PER DISTRICT ##
-# Account for districts without spending data # 
-va_benefits_districtsagg <- merge(va_benefits_districtsagg, data.frame(id = congressid), by.x = "Group.1", by.y = "id", all.y = TRUE)
-va_benefits_districtsagg$x[is.na(va_benefits_districtsagg$x)] <- 0 
+# NOTE: Be sure to account for districts without spending data manually, after code runs # 
+smartpay_d <- read.xlsx(file.path(raw_path, "SmartPay.xlsx"), sheet = 2)
 
-smartpay_d <- read_excel(file.path(raw_path, "SmartPay.xlsx"), sheet = 2)
-
-usaspending_513_districtsagg <- aggregate(usaspending_513$spending, by=list(usaspending_513$recipient_congressional_district), FUN = sum)
+usaspending_513_districtsagg <- usaspending_513 %>%
+  rename(district = recipient_congressional_district) %>%
+  group_by(district) %>%
+  summarize(spending = sum(spending))
 
 for (district in congressid){
   #print(paste(district, class(district)))
@@ -165,17 +167,17 @@ for (district in congressid){
                    "Margins", "Event Tag")]
   household_income7[1,1] <- "va_benefits"
   household_income7[1,2] <- 10001
-  household_income7[1,3] <- as.numeric(va_benefits_districtsagg[which(va_benefits_districtsagg$Group.1 == district), 2]) #update household spending by district
+  household_income7[1,3] <- as.numeric(va_benefits_districtsagg[which(va_benefits_districtsagg$district == district), 2]) #update household spending by district
   #input notation for SmartPay into the institutional spending pattern sheet
   institution_spend9[1,1] <- "SmartPay"
   institution_spend9[1,2] <- "11002"
   institution_spend9[1,3] <- "2023"
   institution_spend9[1,4] <- smartpay_d$total[which(smartpay_d$district == district)]
-  if(district %in% usaspending_513_districtsagg$Group.1) {
+  if(district %in% usaspending_513_districtsagg$district) {
     institution_spend9[2,1] <- "implan_code_513"
     institution_spend9[2,2] <- "12001"
     institution_spend9[2,3] <- "2023"
-    institution_spend9[2,4] <- as.numeric(usaspending_513_districtsagg[which(usaspending_513_districtsagg$Group.1 == district), 2])
+    institution_spend9[2,4] <- as.numeric(usaspending_513_districtsagg[which(usaspending_513_districtsagg$district == district), 2])
   } else {
     institution_spend9[2,] <- NA
   }

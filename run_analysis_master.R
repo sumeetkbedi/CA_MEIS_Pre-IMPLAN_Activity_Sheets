@@ -106,14 +106,12 @@ doespending <- split_usaspending(ufile_name, TRUE)
 ## Load an R script that filters the DOE spending to only national security-related data ##
 source("src/natsec_doe.R")
 
-## Aggregate the DOD/DHS/VA USAspending, DOE spending, and VA benefits ## 
-# This gives you all the statewide spending info for the  DHS/DOD/VA IMPLAN activity sheet and the DOE IMPLAN activity sheet, as well as VA benefits at the state, county, and district level (for the Household Spending tab in the IMPLAN activity sheet)
+## Aggregate the DOD/DHS/VA USAspending data, as well as DOE spending, for the 2 statewide IMPLAN activity sheets ##
 statewide_aggregate(usaspending, (paste0(f_year, agg_state_u_data)))
 statewide_aggregate(doe_ns_spending, (paste0(f_year, agg_state_doe_data)))
 
-va_benefits_stateagg <- sum(va_benefits$spending)
-va_benefits_countiesagg <- aggregate(va_benefits$spending, by=list(va_benefits$recipient_county_name), FUN = sum)
-va_benefits_districtsagg <- aggregate(va_benefits$spending, by=list(va_benefits$congressional_district), FUN = sum)
+## Aggregate VA benefits at the state, county, and district level for the Household Spending tab in the IMPLAN activity sheet ##
+source("src/aggregate_va_benefits.R")
 
 ## Load R script that provides employment calculations at statewide, county, and congressional district levels ##
 source("src/generate_employment_dataframe.R")
