@@ -10,7 +10,7 @@ state_emp_mili = state_emp[1,1] + (state_emp[1,2] * res_mult)
 state_emp_dod = sum(state_emp[1,5:8])
 state_emp_dhs = state_emp[1,3]
 state_emp_va = state_emp[1,4]
-state_emp_civilian = state_dod_emp + state_dhs_emp + state_va_emp
+state_emp_civilian = state_emp_dod + state_emp_dhs + state_emp_va
 state_emp_doe = state_emp[1,9] * doe_ns_adjustment
 
 ##Begin apportioning employment data by county and district, sectioning off based on employment type##
