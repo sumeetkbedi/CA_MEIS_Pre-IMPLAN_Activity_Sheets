@@ -140,3 +140,4 @@ dhs_va_foia_data = "_dhs_va_foia_emp.xlsx"
 
 ##create_implan_sheets variables##
 blank_sheets = "Blank_Sheets_for_R"
+implan_year <- as.character(as.numeric(f_year) - 1)

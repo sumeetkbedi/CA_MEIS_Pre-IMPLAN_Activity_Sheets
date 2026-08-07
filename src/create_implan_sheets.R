@@ -61,12 +61,12 @@ for (county in countynames){
   #input notation for SmartPay into the institutional spending pattern sheet
   institution_spend9[1,1] <- "SmartPay"
   institution_spend9[1,2] <- "11002"
-  institution_spend9[1,3] <- "2023"
+  institution_spend9[1,3] <- implan_year
   institution_spend9[1,4] <- smartpay_c$total[which(smartpay_c$county == county)]
   if(county %in% usaspending_513_countiesagg$county) {
     institution_spend9[2,1] <- "implan_code_513"
     institution_spend9[2,2] <- "12001"
-    institution_spend9[2,3] <- "2023"
+    institution_spend9[2,3] <- implan_year
     institution_spend9[2,4] <- as.numeric(usaspending_513_countiesagg[which(usaspending_513_countiesagg$county == county), 2])
   } else {
     institution_spend9[2,] <- NA
@@ -114,7 +114,7 @@ for (county in countynames){
   #input notation for SmartPay into the institutional spending pattern sheet
   institution_spend9[1,1] <- "SmartPay"
   institution_spend9[1,2] <- "11002"
-  institution_spend9[1,3] <- "2023"
+  institution_spend9[1,3] <- implan_year
   institution_spend9[1,4] <- smartpay_c$inverse[which(smartpay_c$county == county)]
   institution_spend9[2,1] <- "implan_code_513"
   institution_spend9[2,2] <- "12001"
@@ -171,12 +171,12 @@ for (district in congressid){
   #input notation for SmartPay into the institutional spending pattern sheet
   institution_spend9[1,1] <- "SmartPay"
   institution_spend9[1,2] <- "11002"
-  institution_spend9[1,3] <- "2023"
+  institution_spend9[1,3] <- implan_year
   institution_spend9[1,4] <- smartpay_d$total[which(smartpay_d$district == district)]
   if(district %in% usaspending_513_districtsagg$district) {
     institution_spend9[2,1] <- "implan_code_513"
     institution_spend9[2,2] <- "12001"
-    institution_spend9[2,3] <- "2023"
+    institution_spend9[2,3] <- implan_year
     institution_spend9[2,4] <- as.numeric(usaspending_513_districtsagg[which(usaspending_513_districtsagg$district == district), 2])
   } else {
     institution_spend9[2,] <- NA
