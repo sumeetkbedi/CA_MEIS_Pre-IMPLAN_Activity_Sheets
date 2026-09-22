@@ -118,7 +118,7 @@ for (county in countynames){
   institution_spend9[1,4] <- smartpay_c$inverse[which(smartpay_c$county == county)]
   institution_spend9[2,1] <- "implan_code_513"
   institution_spend9[2,2] <- "12001"
-  institution_spend9[2,3] <- "2023"
+  institution_spend9[2,3] <- implan_year
   if(county %in% usaspending_513_countiesagg$county) {
     institution_spend9[2,4] <- as.numeric(usa_spending_513_stateagg - usaspending_513_countiesagg[which(usaspending_513_countiesagg$county == county), 2])
   } else {
