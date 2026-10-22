@@ -20,18 +20,18 @@ congressid <- congressid[congressid != 90]
 congressid <- congressid[!(is.na(congressid))]
 
 # Pull out IMPLAN code 513 from USAspending data - this gives us errors in IMPLAN, and is handled separately
-usaspending_513 <- usaspending[usaspending$implan_code == 513,]
-usaspending <- usaspending[!usaspending$implan_code == 513,]
-usa_spending_513_stateagg <- sum(usaspending_513$spending)
+#usaspending_513 <- usaspending[usaspending$implan_code == 513,]
+#usaspending <- usaspending[!usaspending$implan_code == 513,]
+#usa_spending_513_stateagg <- sum(usaspending_513$spending)
 
 ## LOOP FOR "NORMAL" AND INVERSE IMPLAN ACTIVITY SHEETS PER COUNTY ##
 # NOTE: Be sure to account for counties without spending data manually, after the code runs # 
 smartpay_c <- read.xlsx(file.path(raw_path, "SmartPay.xlsx"), sheet = 1)
 
-usaspending_513_countiesagg <- usaspending_513 %>%
-  rename(county = recipient_county_name) %>%
-  group_by(county) %>%
-  summarize(spending = sum(spending))
+#usaspending_513_countiesagg <- usaspending_513 %>%
+#  rename(county = recipient_county_name) %>%
+#  group_by(county) %>%
+#  summarize(spending = sum(spending))
 
 for (county in countynames){
     j <- which(usaspending[4] == county)
@@ -63,14 +63,14 @@ for (county in countynames){
   institution_spend9[1,2] <- "11002"
   institution_spend9[1,3] <- implan_year
   institution_spend9[1,4] <- smartpay_c$total[which(smartpay_c$county == county)]
-  if(county %in% usaspending_513_countiesagg$county) {
-    institution_spend9[2,1] <- "implan_code_513"
-    institution_spend9[2,2] <- "12001"
-    institution_spend9[2,3] <- implan_year
-    institution_spend9[2,4] <- as.numeric(usaspending_513_countiesagg[which(usaspending_513_countiesagg$county == county), 2])
-  } else {
-    institution_spend9[2,] <- NA
-  }
+  #if(county %in% usaspending_513_countiesagg$county) {
+  #  institution_spend9[2,1] <- "implan_code_513"
+  #  institution_spend9[2,2] <- "12001"
+  #  institution_spend9[2,3] <- implan_year
+  #  institution_spend9[2,4] <- as.numeric(usaspending_513_countiesagg[which(usaspending_513_countiesagg$county == county), 2])
+  #  } else {
+  #  institution_spend9[2,] <- NA
+  #  }
   #put sheets into a list. This list will turn into the excel file.
   templist <- list("Industry" = temp, "Household Income" = household_income7, "Institution Spending Pattern" = institution_spend9)
   #"IIA (Detailed)" = iia2, "Industry Contribution Analysis" = ica3, "Commodity" = commodity4,
@@ -116,14 +116,14 @@ for (county in countynames){
   institution_spend9[1,2] <- "11002"
   institution_spend9[1,3] <- implan_year
   institution_spend9[1,4] <- smartpay_c$inverse[which(smartpay_c$county == county)]
-  institution_spend9[2,1] <- "implan_code_513"
-  institution_spend9[2,2] <- "12001"
-  institution_spend9[2,3] <- implan_year
-  if(county %in% usaspending_513_countiesagg$county) {
-    institution_spend9[2,4] <- as.numeric(usa_spending_513_stateagg - usaspending_513_countiesagg[which(usaspending_513_countiesagg$county == county), 2])
-  } else {
-    institution_spend9[2,4] <- as.numeric(usa_spending_513_stateagg)
-  }
+  #if(county %in% usaspending_513_countiesagg$county) {
+  #  institution_spend9[2,1] <- "implan_code_513"
+  #  institution_spend9[2,2] <- "12001"
+  #  institution_spend9[2,3] <- implan_year
+  #  institution_spend9[2,4] <- as.numeric(usa_spending_513_stateagg - usaspending_513_countiesagg[which(usaspending_513_countiesagg$county == county), 2])
+  #  } else {
+  #  institution_spend9[2,4] <- as.numeric(usa_spending_513_stateagg)
+  #  }
   #put all sheets into one list
   tempooclist <- list("Industry" = tempooc, "Household Income" = household_income7, "Institution Spending Pattern" = institution_spend9)
   #"IIA (Detailed)" = iia2, "Industry Contribution Analysis" = ica3, "Commodity" = commodity4,
@@ -137,10 +137,10 @@ for (county in countynames){
 # NOTE: Be sure to account for districts without spending data manually, after code runs # 
 smartpay_d <- read.xlsx(file.path(raw_path, "SmartPay.xlsx"), sheet = 2)
 
-usaspending_513_districtsagg <- usaspending_513 %>%
-  rename(district = recipient_congressional_district) %>%
-  group_by(district) %>%
-  summarize(spending = sum(spending))
+#usaspending_513_districtsagg <- usaspending_513 %>%
+#  rename(district = recipient_congressional_district) %>%
+#  group_by(district) %>%
+#  summarize(spending = sum(spending))
 
 for (district in congressid){
   #print(paste(district, class(district)))
@@ -173,14 +173,14 @@ for (district in congressid){
   institution_spend9[1,2] <- "11002"
   institution_spend9[1,3] <- implan_year
   institution_spend9[1,4] <- smartpay_d$total[which(smartpay_d$district == district)]
-  if(district %in% usaspending_513_districtsagg$district) {
-    institution_spend9[2,1] <- "implan_code_513"
-    institution_spend9[2,2] <- "12001"
-    institution_spend9[2,3] <- implan_year
-    institution_spend9[2,4] <- as.numeric(usaspending_513_districtsagg[which(usaspending_513_districtsagg$district == district), 2])
-  } else {
-    institution_spend9[2,] <- NA
-  }
+  #if(district %in% usaspending_513_districtsagg$district) {
+  #  institution_spend9[2,1] <- "implan_code_513"
+  #  institution_spend9[2,2] <- "12001"
+  #  institution_spend9[2,3] <- implan_year
+  #  institution_spend9[2,4] <- as.numeric(usaspending_513_districtsagg[which(usaspending_513_districtsagg$district == district), 2])
+  #  } else {
+  #  institution_spend9[2,] <- NA
+  #  }
   #put sheets into a list. This list will turn into the excel file.
   temp2list <- list("Industry" = temp2, "Household Income" = household_income7, "Institution Spending Pattern" = institution_spend9)
   #"IIA (Detailed)" = iia2, "Industry Contribution Analysis" = ica3, "Commodity" = commodity4,
